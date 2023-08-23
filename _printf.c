@@ -3,15 +3,15 @@
 void print_buffer(char buffer[], int *buff_ind);
 
 /**
- * _printf - prints printf function
- * @format: character string
- * Return: number of characters printed
+ * _printf - Printf function
+ * @format: format.
+ * Return: Printed characters
  */
 
 int _printf(const char *format, ...)
 {
-	int i, print = 0, printed_chars = 0;
-	int flags, field_width, precision, length, buff_ind = 0;
+	int i, printed = 0, printed_chars = 0;
+	int flags, width, precision, size, buff_ind = 0;
 	va_list list;
 	char buffer[BUFF_SIZE];
 
@@ -34,15 +34,15 @@ int _printf(const char *format, ...)
 		{
 			print_buffer(buffer, &buff_ind);
 			flags = get_flags(format, &i);
-			fieldwidth = get_fieldwidth(format, &i, list);
+			width = get_width(format, &i, list);
 			precision = get_precision(format, &i, list);
-			size = get_length(format, &i);
+			size = get_size(format, &i);
 			++i;
-			print = handle_print(format, &i, list, buffer,
-				flags, fieldwidth, precision, length);
-			if (print == -1)
+			printed = handle_print(format, &i, list, buffer,
+				flags, width, precision, size);
+			if (printed == -1)
 				return (-1);
-			printed_chars += print;
+			printed_chars += printed;
 		}
 	}
 
@@ -55,8 +55,8 @@ int _printf(const char *format, ...)
 
 /**
  * print_buffer - Prints the contents of the buffer if it exist
- * @buffer: input
- * @buff_ind: input
+ * @buffer: Array of characters
+ * @buff_ind: Index at which to add next character
  */
 
 void print_buffer(char buffer[], int *buff_ind)
